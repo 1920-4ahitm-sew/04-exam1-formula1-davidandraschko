@@ -20,18 +20,18 @@ public class ResultsRestClient {
 
 
     public static final String RESULTS_ENDPOINT = "http://vm90.htl-leonding.ac.at/results";
-    private Client client;
-    private WebTarget target;
+    private Client client = ClientBuilder.newClient();
+    private WebTarget target = client.target(RESULTS_ENDPOINT);
 
     /**
      * Vom RestEndpoint werden alle Result abgeholt und in ein JsonArray gespeichert.
      * Dieses JsonArray wird an die Methode persistResult(...) übergeben
      */
     public void readResultsFromEndpoint() {
-
-        JsonArray payload = null;
-
-        persistResult(payload);
+        Response response = this.target.request(MediaType.APPLICATION_JSON).get();
+        JsonArray payload = response.readEntity(JsonArray.class);
+        System.out.println(payload);
+        //persistResult(payload);
     }
 
     /**
