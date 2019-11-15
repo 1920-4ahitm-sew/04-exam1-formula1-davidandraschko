@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "F1_DRIVER")
 public class Driver {
 
+    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 

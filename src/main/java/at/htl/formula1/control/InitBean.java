@@ -13,13 +13,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 
 @ApplicationScoped
@@ -34,7 +39,7 @@ public class InitBean {
     @Inject
     ResultsRestClient client;
 
-
+    @Transactional
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
 
         readTeamsAndDriversFromFile(TEAM_FILE_NAME);
@@ -48,8 +53,31 @@ public class InitBean {
      *
      * @param racesFileName
      */
+    @Transactional
     private void readRacesFromFile(String racesFileName) {
-
+        /*try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/races.csv")));
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] row = line.split(";");
+                List<Race> races = this.em
+                        .createNamedQuery("Race.getbyRaceNumber", Race.class)
+                        .setParameter("ID", row[0])
+                        .getResultList();
+                Race currentRace;
+                if (races.size()!=1){
+                    currentRace = new Race();
+                    this.em.persist(currentRace);
+                }else{
+                    currentRace = races.get(0);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
 
     }
 
@@ -61,6 +89,34 @@ public class InitBean {
      * @param teamFileName
      */
     private void readTeamsAndDriversFromFile(String teamFileName) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/teams.csv")));
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] row = line.split(";");
+                List<Team> teams = this.em
+                        .createNamedQuery("Team.getTeambyName", Team.class)
+                        .setParameter("NAME", row[0])
+                        .getResultList();
+                Team currentTeam;
+                if (teams.size()!=1){
+                    currentTeam = new Team(row[0]);
+                    this.em.persist(currentTeam);
+                }else{
+                    currentTeam = teams.get(0);
+                }
+
+                this.em.persist(new Driver(row[1], currentTeam));
+                this.em.persist(new Driver(row[2], currentTeam));
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
