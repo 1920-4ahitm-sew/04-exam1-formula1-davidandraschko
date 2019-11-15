@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "F1_RACE")
 @NamedQueries({
-        @NamedQuery(name = "Race.getbyRaceNumber",
-                    query = "select r from Race r where r.id = :ID")
+        @NamedQuery(name = "Race.getAll",
+                    query = "select r from Race r")
 })
 public class Race {
 

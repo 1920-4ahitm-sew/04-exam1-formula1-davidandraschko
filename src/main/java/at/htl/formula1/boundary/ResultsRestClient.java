@@ -37,6 +37,8 @@ public class ResultsRestClient {
         JsonObject object = payload.getJsonObject(0);
         List<JsonObject> values = payload.getValuesAs(JsonObject.class);
         for (JsonObject value : values){
+            em.persist(new Result());
+            em.persist(new Driver());
             System.out.println(value);
         }
 

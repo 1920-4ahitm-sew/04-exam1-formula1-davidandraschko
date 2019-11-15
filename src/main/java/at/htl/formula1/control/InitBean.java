@@ -3,6 +3,7 @@ package at.htl.formula1.control;
 import at.htl.formula1.boundary.ResultsRestClient;
 import at.htl.formula1.entity.Driver;
 import at.htl.formula1.entity.Race;
+import at.htl.formula1.entity.Result;
 import at.htl.formula1.entity.Team;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -62,8 +63,7 @@ public class InitBean {
             while ((line = br.readLine()) != null) {
                 String[] row = line.split(";");
                 List<Race> races = this.em
-                        .createNamedQuery("Race.getbyRaceNumber", Race.class)
-                        .setParameter("ID", row[0])
+                        .createNamedQuery("Race.getAll", Race.class)
                         .getResultList();
                 Race currentRace;
                 if (races.size()!=1){
@@ -72,13 +72,14 @@ public class InitBean {
                 }else{
                     currentRace = races.get(0);
                 }
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
-
+        }
+        */
     }
 
     /**
