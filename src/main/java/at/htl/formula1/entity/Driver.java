@@ -15,6 +15,11 @@ import javax.persistence.*;
         @NamedQuery(
                 name = "Driver.findAll",
                 query = "select d from Driver d"
+        ),
+        @NamedQuery(
+                name = "Result.getWinnerOfRace",
+                query = "select re.driver from Result re where re.position = 1 and " +
+                        "re.race = (select ra.id from Race ra where ra.country like :COUNTRY)"
         )
 })
 public class Driver {
