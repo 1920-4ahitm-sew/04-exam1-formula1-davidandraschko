@@ -44,6 +44,7 @@ public class ResultsEndpoint {
                 .build();
     }
 
+
     /**
      * @param id des Rennens
      * @return
