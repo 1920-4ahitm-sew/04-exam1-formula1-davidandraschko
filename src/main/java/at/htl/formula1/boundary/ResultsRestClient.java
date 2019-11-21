@@ -32,7 +32,7 @@ public class ResultsRestClient {
      * Dieses JsonArray wird an die Methode persistResult(...) übergeben
      */
     public void readResultsFromEndpoint() {
-        Response response = this.target.request(MediaType.APPLICATION_JSON).get();
+        /*Response response = this.target.request(MediaType.APPLICATION_JSON).get();
         JsonArray payload = response.readEntity(JsonArray.class);
         JsonObject object = payload.getJsonObject(0);
         List<JsonObject> values = payload.getValuesAs(JsonObject.class);
@@ -40,7 +40,7 @@ public class ResultsRestClient {
             em.persist(new Result());
             em.persist(new Driver());
             System.out.println(value);
-        }
+        }*/
 
         //persistResult(payload);
     }

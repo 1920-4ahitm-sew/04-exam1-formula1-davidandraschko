@@ -84,7 +84,7 @@ public class InitBean {
      */
     private void readTeamsAndDriversFromFile(String teamFileName) {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/teams.csv")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/teams.csv"), StandardCharsets.UTF_8));
             br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
@@ -125,9 +125,9 @@ public class InitBean {
      * @param line String-Array mit den einzelnen Werten der csv-Datei
      */
 
-    private void persistTeamAndDrivers(String[] line) {
+    /*private void persistTeamAndDrivers(String[] line) {
 
-    }
+    }*/
 
 
 }
