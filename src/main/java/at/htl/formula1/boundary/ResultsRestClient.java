@@ -32,17 +32,9 @@ public class ResultsRestClient {
      * Dieses JsonArray wird an die Methode persistResult(...) übergeben
      */
     public void readResultsFromEndpoint() {
-        /*Response response = this.target.request(MediaType.APPLICATION_JSON).get();
+        Response response = this.target.request(MediaType.APPLICATION_JSON).get();
         JsonArray payload = response.readEntity(JsonArray.class);
-        JsonObject object = payload.getJsonObject(0);
-        List<JsonObject> values = payload.getValuesAs(JsonObject.class);
-        for (JsonObject value : values){
-            em.persist(new Result());
-            em.persist(new Driver());
-            System.out.println(value);
-        }*/
-
-        //persistResult(payload);
+        persistResult(payload);
     }
 
     /**
@@ -66,6 +58,18 @@ public class ResultsRestClient {
      */
     @Transactional
     void persistResult(JsonArray resultsJson) {
+
+        for (JsonValue value : resultsJson){
+            String name = value.asJsonObject().getString("driverFullName");
+            int position = value.asJsonObject().getInt("position");
+            Long raceNo = Long.parseLong("" + value.asJsonObject().getInt("raceNo"));
+
+            em.persist(new Result(em.find(Race.class, raceNo),
+                    position,
+                    em.createNamedQuery("Driver.findByName", Driver.class)
+                            .setParameter("NAME", name)
+                            .getSingleResult()));
+        }
 
     }
 
