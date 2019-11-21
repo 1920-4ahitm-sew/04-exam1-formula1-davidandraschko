@@ -13,6 +13,12 @@ import javax.persistence.*;
         @NamedQuery(name = "Team.getTeambyName",
                     query = "select t from Team t where t.name = :NAME")
 })
+@NamedQuery(
+        name = "Result.racesWonByTeam",
+        query = "select r.race from Result r where r.position = 1 " +
+                "and r.driver in (select distinct d.id from Driver d " +
+                "where d.team = (select distinct t.id from Team t where t.name = :TEAM))"
+)
 public class Team {
 
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
