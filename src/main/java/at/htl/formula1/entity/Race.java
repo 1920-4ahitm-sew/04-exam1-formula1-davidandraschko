@@ -10,13 +10,13 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "F1_RACE")
-@NamedQueries({
+/*@NamedQueries({
         @NamedQuery(name = "Race.getAll",
                     query = "select r from Race r")
-})
+})*/
 public class Race {
 
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     private String country;

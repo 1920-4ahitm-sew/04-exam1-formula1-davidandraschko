@@ -56,30 +56,23 @@ public class InitBean {
      */
     @Transactional
     private void readRacesFromFile(String racesFileName) {
-        /*try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/races.csv")));
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/races.csv")));
+
+        try {
             br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] row = line.split(";");
-                List<Race> races = this.em
-                        .createNamedQuery("Race.getAll", Race.class)
-                        .getResultList();
-                Race currentRace;
-                if (races.size()!=1){
-                    currentRace = new Race();
-                    this.em.persist(currentRace);
-                }else{
-                    currentRace = races.get(0);
-                }
-
+                Race r = new Race(Long.parseLong(row[0]), row[1],
+                        LocalDate.parse(row[2], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                em.persist(r);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
     }
 
     /**
@@ -101,10 +94,10 @@ public class InitBean {
                         .setParameter("NAME", row[0])
                         .getResultList();
                 Team currentTeam;
-                if (teams.size()!=1){
+                if (teams.size() != 1) {
                     currentTeam = new Team(row[0]);
                     this.em.persist(currentTeam);
-                }else{
+                } else {
                     currentTeam = teams.get(0);
                 }
 
@@ -114,14 +107,14 @@ public class InitBean {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
-    /**
+        /**
      * Es wird überprüft ob es das übergebene Team schon in der Tabelle F1_TEAM gibt.
      * Falls nicht, wird das Team in der Tabelle gespeichert.
      * Wenn es das Team schon gibt, dann liest man das Team aus der Tabelle und
