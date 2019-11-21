@@ -20,6 +20,10 @@ import javax.persistence.*;
                 name = "Result.getWinnerOfRace",
                 query = "select re.driver from Result re where re.position = 1 and " +
                         "re.race = (select ra.id from Race ra where ra.country like :COUNTRY)"
+        ),
+        @NamedQuery(
+                name = "Result.getPoints",
+                query = "select sum(r.points) from Result r where r.driver = :ID"
         )
 })
 public class Driver {

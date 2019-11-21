@@ -17,6 +17,11 @@ import javax.persistence.*;
         @NamedQuery(
                 name = "Result.sumPointsForAllDrivers",
                 query = "select r.driver.name, sum(r.points) from Result r group by r.driver.name"
+        ),
+
+        @NamedQuery(
+                name = "Result.getPoints",
+                query = "select sum(r.points) from Result r where r.driver = :ID"
         )
 })
 public class Result {
